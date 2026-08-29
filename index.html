@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>이안애 바닥재 마켓</title>
+
+<style>
+  /* ===== 공통 설정 ===== */
+  body {
+    margin: 0;
+    font-family: "맑은 고딕", sans-serif;
+    background-color: #3719bd;  /* 아주 연한 나무색 배경 */
+    color: #4A3728;             /* 진한 나무색 글씨 */
+    font-size: 18px;            /* 어르신도 편하게 보이도록 크게 */
+    line-height: 1.7;
+  }
+
+  /* ===== 맨 위 (이름 + 소개) ===== */
+  header {
+    background-color: #FFEB3B;  /* 노란색 바탕 */
+    color: #1B7F3B;             /* 초록색 글씨 */
+    text-align: center;
+    padding: 40px 20px;
+  }
+  header h1 { margin: 0; font-size: 36px; }
+  header p  { margin: 10px 0 0; font-size: 20px; }
+
+  /* ===== 메뉴 4개 ===== */
+  nav {
+    background-color: #E8D5C0;
+    text-align: center;
+    padding: 15px;
+  }
+  nav a {
+    color: #4A3728;
+    text-decoration: none;
+    margin: 0 20px;
+    font-weight: bold;
+  }
+  nav a:hover { color: #8B5E3C; }
+
+  /* ===== 상품 카테고리 고르기 단추 ===== */
+  .tabs {
+    background-color: #E8D5C0;
+    display: flex;
+    flex-wrap: wrap;                       /* 화면이 좁으면 아래로 내려감 */
+    justify-content: center;
+    gap: 10px;
+    padding: 18px 15px;
+  }
+  .tabs button {
+    background-color: #FFFFFF;
+    color: #4A3728;
+    border: 2px solid #C89F7B;
+    border-radius: 25px;
+    padding: 10px 22px;
+    font-size: 18px;
+  }
+  .tabs button:hover { background-color: #F3E5D5; }
+  .tabs button.on {                        /* 지금 보고 있는 카테고리 */
+    background-color: #1565C0;
+    border-color: #1565C0;
+    color: #FFFFFF;
+  }
+
+  /* ===== 큰 배너 ===== */
+  .banner {
+    /* 아파트 거실에 헤링본으로 시공한 마루 사진 */
+    background-image:
+      linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),  /* 글씨가 잘 보이도록 살짝 어둡게 */
+      url("images/banner-living-herringbone.jpg");
+    background-size: cover;                /* 화면 너비에 맞춰 꽉 채움 */
+    background-position: center;
+    color: #FFFFFF;                        /* 사진 위 흰 글씨 */
+    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+    text-align: center;
+    padding: 110px 20px;
+  }
+  .banner h2 { font-size: 32px; margin: 0 0 10px; }
+  .banner p  { font-size: 20px; margin: 0 0 30px; }
+
+  /* 버튼 모양 */
+  button {
+    background-color: #A9784F;
+    color: #FFFFFF;
+    border: none;
+    border-radius: 30px;
+    padding: 15px 40px;
+    font-size: 20px;
+    cursor: pointer;
+  }
+  button:hover { background-color: #8B5E3C; }
+
+  /* ===== 상품 카테고리 (3개 × 상품 3개) ===== */
+  .category {                   /* 카테고리 제목 */
+    text-align: center;
+    font-size: 28px;
+    color: #FFFFFF;             /* 파란 배경 위에서도 잘 보이도록 흰색 */
+    margin: 45px 0 0;
+  }
+  .category span {              /* 제목 아래 한 줄 설명 */
+    display: block;
+    font-size: 17px;
+    font-weight: normal;
+    color: #FFE9A8;             /* 연한 노란색 설명 글씨 */
+    margin-top: 8px;
+  }
+  .products {
+    display: flex;              /* 가로로 나란히 배치 */
+    flex-wrap: nowrap;          /* 줄바꿈 없이 한 줄로 나열 */
+    justify-content: safe center;   /* 다 들어가면 가운데, 넘치면 왼쪽부터 */
+    overflow-x: auto;           /* 화면이 좁으면 옆으로 밀어서 봄 */
+    scroll-snap-type: x proximity;
+    gap: 25px;
+    padding: 25px 20px 40px;   /* 아래쪽은 스크롤 막대 자리 */
+  }
+  .card {
+    background-color: #FFFFFF;
+    border: 1px solid #E8D5C0;
+    border-radius: 15px;
+    width: 260px;
+    flex-shrink: 0;             /* 한 줄에 놓여도 카드가 찌그러지지 않게 */
+    scroll-snap-align: center;  /* 밀었을 때 카드에 맞춰 멈춤 */
+    text-align: center;
+    padding: 25px;
+    position: relative;                    /* BEST 딱지를 얹기 위한 기준 */
+  }
+  .card .photo {                           /* 상품 바닥재 사진 */
+    width: 100%;
+    height: 160px;
+    object-fit: cover;                     /* 카드 크기에 맞게 잘라서 채움 */
+    border-radius: 10px;
+    display: block;
+  }
+  .card h3 { margin: 15px 0 10px; }
+  .spec {                                  /* 색상 · 규격 · 사이즈 · 시공 */
+    list-style: none;
+    margin: 0 0 14px;
+    padding: 0;
+    text-align: left;
+    font-size: 15px;
+    color: #7A6A58;
+    line-height: 1.7;
+  }
+  .spec b {
+    display: inline-block;
+    width: 56px;                           /* 항목 이름 폭을 맞춰 나란히 보이게 */
+    color: #4A3728;
+  }
+  .badge-best {                            /* 인기상품 딱지 */
+    position: absolute;
+    top: 15px;
+    right: 15px;                /* 카드 오른쪽 위에 표시 */
+    background-color: #1565C0;  /* 파란색 딱지 */
+    color: #FFFFFF;
+    font-size: 14px;
+    font-weight: bold;
+    border-radius: 15px;
+    padding: 3px 14px;
+  }
+  .old-price {
+    color: #999999;
+    text-decoration: line-through;         /* 할인 전 가격에 줄 긋기 */
+    font-size: 16px;
+  }
+  .new-price {
+    color: #000000;             /* 상품 금액은 검정색 */
+    font-size: 24px;
+    font-weight: bold;
+    margin: 5px 0 20px;
+  }
+  .sale {                                  /* 할인율 (가격 앞 빨간 글씨) */
+    color: #E02B20;
+    margin-right: 8px;
+  }
+
+  /* ===== 무료 시공 안내 ===== */
+  .free-install {
+    background-color: #1565C0;             /* 파란 띠 */
+    color: #FFFFFF;
+    text-align: center;
+    font-size: 22px;
+    margin: 0;
+    padding: 28px 20px;
+  }
+  .free-install b { font-size: 26px; }
+
+  /* ===== 맨 아래 연락처 ===== */
+  footer {
+    background-color: #4A3728;
+    color: #FFFFFF;
+    text-align: center;
+    padding: 35px 20px;
+  }
+</style>
+</head>
+
+<body>
+
+  <!-- 맨 위: 쇼핑몰 이름과 한 줄 소개 -->
+  <header>
+    <h1>이안애 바닥재 마켓</h1>
+    <p>우리 집을 편안하게, 따뜻한 주거용 바닥재</p>
+  </header>
+
+  <!-- 메뉴 4개 -->
+  <nav>
+    <a href="#">홈</a>
+    <a href="#">전체상품</a>
+    <a href="#">시공안내</a>
+    <a href="#">고객센터</a>
+  </nav>
+
+  <!-- 상품 카테고리 고르기 -->
+  <div class="tabs">
+    <button class="on" onclick="showCategory('all', this)">전체보기</button>
+    <button onclick="showCategory('cat-floor', this)">마루 · 장판</button>
+    <button onclick="showCategory('cat-quiet', this)">층간소음 방지</button>
+    <button onclick="showCategory('cat-pattern', this)">패턴 · 컬러 마루</button>
+  </div>
+
+  <!-- 큰 배너 -->
+  <section class="banner">
+    <h2>발이 편안한 우리 집 바닥</h2>
+    <p>아파트 맞춤 바닥재를 지금 만나보세요</p>
+    <button onclick="showAlert()">상품 보러가기</button>
+  </section>
+
+  <!-- ===== 카테고리 1 : 마루 · 장판 ===== -->
+  <div class="category-block" id="cat-floor">
+  <h2 class="category">마루 · 장판<span>집 전체에 두루 쓰는 기본 바닥재</span></h2>
+  <section class="products">
+
+    <div class="card">
+      <span class="badge-best">BEST</span>
+      <img class="photo" src="images/wood-natural.png" alt="원목마루 내추럴 바닥재 사진">
+      <h3>원목마루 내추럴</h3>
+      <ul class="spec">
+        <li><b>색상</b> 오크 · 버찌</li>
+        <li><b>규격</b> 원목마루 T15</li>
+        <li><b>사이즈</b> 900 × 90 mm</li>
+        <li><b>시공</b> 접착 시공</li>
+      </ul>
+      <p class="old-price">120,000원</p>
+      <p class="new-price"><span class="sale">25%</span>89,000원</p>
+      <button onclick="showAlert()">장바구니</button>
+    </div>
+
+    <div class="card">
+      <img class="photo" src="images/laminate-oak.png" alt="강화마루 오크 바닥재 사진">
+      <h3>강화마루 오크</h3>
+      <ul class="spec">
+        <li><b>색상</b> 오크 · 버찌</li>
+        <li><b>규격</b> 강화마루 T8</li>
+        <li><b>사이즈</b> 1200 × 190 mm</li>
+        <li><b>시공</b> 클릭 조립 시공</li>
+      </ul>
+      <p class="old-price">85,000원</p>
+      <p class="new-price"><span class="sale">30%</span>59,000원</p>
+      <button onclick="showAlert()">장바구니</button>
+    </div>
+
+    <div class="card">
+      <img class="photo" src="images/vinyl-premium.png" alt="장판 프리미엄 6mm 바닥재 사진">
+      <h3>장판 프리미엄 6mm</h3>
+      <ul class="spec">
+        <li><b>색상</b> 전체 칼라</li>
+        <li><b>규격</b> 장판 T6</li>
+        <li><b>사이즈</b> 폭 1800 mm 롤</li>
+        <li><b>시공</b> 롤 시공</li>
+      </ul>
+      <p class="old-price">60,000원</p>
+      <p class="new-price"><span class="sale">30%</span>42,000원</p>
+      <button onclick="showAlert()">장바구니</button>
+    </div>
+
+  </section>
+  </div>
+
+  <!-- ===== 카테고리 2 : 층간소음 방지 ===== -->
+  <div class="category-block" id="cat-quiet">
+  <h2 class="category">층간소음 방지<span>아랫집 걱정 없는 조용한 바닥</span></h2>
+  <section class="products">
+
+    <div class="card">
+      <img class="photo" src="images/soundproof-mat.png" alt="소음방지용 바닥재 사진">
+      <h3>소음방지용 바닥재</h3>
+      <ul class="spec">
+        <li><b>색상</b> 전체 칼라</li>
+        <li><b>규격</b> 완충 매트 T10</li>
+        <li><b>사이즈</b> 1000 × 1000 mm</li>
+        <li><b>시공</b> 깔기 시공</li>
+      </ul>
+      <p class="old-price">80,000원</p>
+      <p class="new-price"><span class="sale">12%</span>70,000원</p>
+      <button onclick="showAlert()">장바구니</button>
+    </div>
+
+    <div class="card">
+      <img class="photo" src="images/living-quiet.png" alt="거실용 소리 잠잠 바닥재 사진">
+      <h3>거실용 소리 잠잠</h3>
+      <ul class="spec">
+        <li><b>색상</b> 전체 칼라</li>
+        <li><b>규격</b> 완충 매트 T8</li>
+        <li><b>사이즈</b> 1200 × 1200 mm</li>
+        <li><b>시공</b> 깔기 시공</li>
+      </ul>
+      <p class="old-price">50,000원</p>
+      <p class="new-price"><span class="sale">20%</span>40,000원</p>
+      <button onclick="showAlert()">장바구니</button>
+    </div>
+
+    <div class="card">
+      <span class="badge-best">BEST</span>
+      <img class="photo" src="images/soriejam.png" alt="소리잠 바닥재 사진">
+      <h3>소리잠</h3>
+      <ul class="spec">
+        <li><b>색상</b> 전체 칼라</li>
+        <li><b>규격</b> 아이 전용 매트 T15</li>
+        <li><b>사이즈</b> 1400 × 2000 mm</li>
+        <li><b>시공</b> 깔기 시공</li>
+      </ul>
+      <p class="old-price">70,000원</p>
+      <p class="new-price"><span class="sale">14%</span>60,000원</p>
+      <button onclick="showAlert()">장바구니</button>
+    </div>
+
+  </section>
+  </div>
+
+  <!-- ===== 카테고리 3 : 패턴 · 컬러 마루 ===== -->
+  <div class="category-block" id="cat-pattern">
+  <h2 class="category">패턴 · 컬러 마루<span>거실 분위기를 바꾸는 포인트 시공</span></h2>
+  <section class="products">
+
+    <div class="card">
+      <img class="photo" src="images/diagonal-oak.png" alt="다이애거널 마루 바닥재 사진">
+      <h3>다이애거널 마루</h3>
+      <ul class="spec">
+        <li><b>색상</b> 오크 · 월넛</li>
+        <li><b>규격</b> 원목마루 T15</li>
+        <li><b>사이즈</b> 600 × 120 mm</li>
+        <li><b>시공</b> 대각선 접착 시공</li>
+      </ul>
+      <p class="old-price">130,000원</p>
+      <p class="new-price"><span class="sale">23%</span>99,000원</p>
+      <button onclick="showAlert()">장바구니</button>
+    </div>
+
+    <div class="card">
+      <img class="photo" src="images/wide-plank.png" alt="와이드 플랭크 마루 바닥재 사진">
+      <h3>와이드 플랭크 마루</h3>
+      <ul class="spec">
+        <li><b>색상</b> 내추럴 · 화이트오크</li>
+        <li><b>규격</b> 강마루 T7.5</li>
+        <li><b>사이즈</b> 1260 × 240 mm</li>
+        <li><b>시공</b> 접착 시공</li>
+      </ul>
+      <p class="old-price">110,000원</p>
+      <p class="new-price"><span class="sale">28%</span>79,000원</p>
+      <button onclick="showAlert()">장바구니</button>
+    </div>
+
+    <div class="card">
+      <img class="photo" src="images/vintage-blue.png" alt="빈티지 블루 마루 바닥재 사진">
+      <h3>빈티지 블루 마루</h3>
+      <ul class="spec">
+        <li><b>색상</b> 블루 · 그레이</li>
+        <li><b>규격</b> 강화마루 T8</li>
+        <li><b>사이즈</b> 1200 × 190 mm</li>
+        <li><b>시공</b> 클릭 조립 시공</li>
+      </ul>
+      <p class="old-price">95,000원</p>
+      <p class="new-price"><span class="sale">27%</span>69,000원</p>
+      <button onclick="showAlert()">장바구니</button>
+    </div>
+
+  </section>
+  </div>
+
+  <!-- 맨 아래 안내 문구 -->
+  <p class="free-install">100,000원 이상 구매하시면 <b>무료 시공</b> 해 드립니다</p>
+
+  <!-- 맨 아래: 연락처 -->
+  <footer>
+    <p>이안애 바닥재 마켓</p>
+    <p>전화 1588-0000 | 평일 09:00 ~ 18:00 (주말·공휴일 휴무)</p>
+    <p>이메일 help@ianae.co.kr</p>
+  </footer>
+
+<script>
+  // 버튼을 누르면 알림창이 뜹니다.
+  function showAlert() {
+    alert("준비 중입니다. 문의는 1588-0000 으로 연락 주세요!");
+  }
+
+  // 카테고리 단추를 누르면 그 카테고리 상품만 보여줍니다.
+  function showCategory(id, btn) {
+    var blocks = document.querySelectorAll(".category-block");
+    for (var i = 0; i < blocks.length; i++) {
+      // '전체보기'면 모두 보이고, 아니면 고른 카테고리만 보입니다.
+      blocks[i].hidden = (id !== "all" && blocks[i].id !== id);
+    }
+
+    // 눌린 단추에만 파란색 표시(on)를 남깁니다.
+    var tabs = document.querySelectorAll(".tabs button");
+    for (var j = 0; j < tabs.length; j++) {
+      tabs[j].classList.remove("on");
+    }
+    btn.classList.add("on");
+  }
+</script>
+
+</body>
+</html>
