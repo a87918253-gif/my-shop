@@ -10,7 +10,14 @@
   body {
     margin: 0;
     font-family: "맑은 고딕", sans-serif;
-    background-color: #3719bd;  /* 아주 연한 나무색 배경 */
+    /* 아파트 거실 사진을 화면 전체 배경으로 */
+    background-image:
+      linear-gradient(rgba(25, 18, 10, 0.55), rgba(25, 18, 10, 0.55)),  /* 글씨가 잘 보이도록 어둡게 */
+      url("images/bg-living-room.jpg");
+    background-size: cover;                /* 화면을 가득 채움 */
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;          /* 스크롤해도 배경은 그대로 */
     color: #4A3728;             /* 진한 나무색 글씨 */
     font-size: 18px;            /* 어르신도 편하게 보이도록 크게 */
     line-height: 1.7;
@@ -68,17 +75,22 @@
   .banner {
     /* 아파트 거실에 헤링본으로 시공한 마루 사진 */
     background-image:
-      linear-gradient(rgba(0, 0, 0, 0.45), rgba(0, 0, 0, 0.45)),  /* 글씨가 잘 보이도록 살짝 어둡게 */
+      linear-gradient(rgba(0, 0, 0, 0.15), rgba(0, 0, 0, 0.45)),  /* 아래쪽만 살짝 어둡게 */
       url("images/banner-living-herringbone.jpg");
-    background-size: cover;                /* 화면 너비에 맞춰 꽉 채움 */
+    background-size: cover;                /* 잘림 없이 화면을 가득 채움 */
     background-position: center;
+    background-repeat: no-repeat;
+    min-height: 65vh;                      /* 화면 높이의 약 2/3 를 사진이 채움 */
+    display: flex;                         /* 글씨를 사진 한가운데에 놓기 */
+    flex-direction: column;
+    justify-content: center;
     color: #FFFFFF;                        /* 사진 위 흰 글씨 */
-    text-shadow: 0 2px 6px rgba(0, 0, 0, 0.6);
+    text-shadow: 0 2px 8px rgba(0, 0, 0, 0.7);
     text-align: center;
-    padding: 110px 20px;
+    padding: 40px 20px;
   }
-  .banner h2 { font-size: 32px; margin: 0 0 10px; }
-  .banner p  { font-size: 20px; margin: 0 0 30px; }
+  .banner h2 { font-size: 40px; margin: 0 0 12px; }
+  .banner p  { font-size: 22px; margin: 0 0 32px; }
 
   /* 버튼 모양 */
   button {
@@ -175,6 +187,56 @@
     margin-right: 8px;
   }
 
+  /* ===== 쇼핑몰 소개 ===== */
+  .about {
+    background-color: #FFFFFF;
+    max-width: 960px;
+    width: calc(100% - 40px);              /* 좁은 화면에서 양옆 여백 확보 */
+    margin: 55px auto 0;
+    border-radius: 15px;
+    padding: 45px 25px;
+    text-align: center;
+  }
+  .about h2 {
+    font-size: 28px;
+    color: #4A3728;
+    margin: 0 0 18px;
+  }
+  .about .lead {
+    font-size: 19px;
+    color: #6B5A46;
+    margin: 0 0 35px;
+  }
+  .points {
+    display: flex;
+    flex-wrap: wrap;                       /* 화면이 좁으면 아래로 내려감 */
+    justify-content: center;
+    gap: 22px;
+  }
+  .point {
+    background-color: #FDF7F0;
+    border: 1px solid #E8D5C0;
+    border-radius: 15px;
+    width: 250px;
+    padding: 25px 20px;
+  }
+  .point .icon { font-size: 42px; }
+  .point h3 {
+    font-size: 20px;
+    color: #4A3728;
+    margin: 12px 0 10px;
+  }
+  .point p {
+    font-size: 16px;
+    color: #7A6A58;
+    line-height: 1.6;
+    margin: 0;
+  }
+  .about .closing {
+    font-size: 18px;
+    color: #6B5A46;
+    margin: 35px 0 0;
+  }
   /* ===== 무료 시공 안내 ===== */
   .free-install {
     background-color: #1565C0;             /* 파란 띠 */
@@ -429,6 +491,45 @@
 
   </section>
   </div>
+
+  <!-- 쇼핑몰 소개 -->
+  <section class="about">
+    <h2>이안애 바닥재 마켓을 소개합니다</h2>
+    <p class="lead">
+      우리 집 거실부터 학교 체육관까지,<br>
+      발이 닿는 모든 바닥을 편안하게 만들어 드립니다.
+    </p>
+
+    <div class="points">
+
+      <div class="point">
+        <div class="icon">🎨</div>
+        <h3>원하는 디자인 시공</h3>
+        <p>헤링본, 대각선, 컬러 마루까지
+           원하시는 모양 그대로 깔아 드립니다.</p>
+      </div>
+
+      <div class="point">
+        <div class="icon">📐</div>
+        <h3>완벽 시공</h3>
+        <p>틈새 없이 꼼꼼하게, 걸레받이 마감까지
+           깔끔하게 마무리해 드립니다.</p>
+      </div>
+
+      <div class="point">
+        <div class="icon">🛠️</div>
+        <h3>시공 후 A/S 1년 보장</h3>
+        <p>시공일로부터 1년간 무상 보수해 드립니다.
+           들뜸이나 벌어짐이 생기면 연락 주세요.</p>
+      </div>
+
+    </div>
+
+    <p class="closing">
+      바닥은 매일 밟고 지내는 곳입니다.<br>
+      오래 두고 쓰실 것이니, 천천히 보고 고르셔도 괜찮습니다.
+    </p>
+  </section>
 
   <!-- 맨 아래 안내 문구 -->
   <p class="free-install">100,000원 이상 구매하시면 <b>무료 시공</b> 해 드립니다</p>
