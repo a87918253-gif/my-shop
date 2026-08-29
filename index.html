@@ -218,6 +218,7 @@
     <button onclick="showCategory('cat-floor', this)">마루 · 장판</button>
     <button onclick="showCategory('cat-quiet', this)">층간소음 방지</button>
     <button onclick="showCategory('cat-pattern', this)">패턴 · 컬러 마루</button>
+    <button onclick="showCategory('cat-gym', this)">체육관용 바닥재</button>
   </div>
 
   <!-- 큰 배너 -->
@@ -379,6 +380,56 @@
   </section>
   </div>
 
+  <!-- ===== 카테고리 4 : 체육관용 바닥재 ===== -->
+  <div class="category-block" id="cat-gym">
+  <h2 class="category">체육관용 바닥재<span>학교 · 실내체육관 · 배드민턴장 전용</span></h2>
+  <section class="products">
+
+    <div class="card">
+      <img class="photo" src="images/gym-maple.jpg" alt="스포츠 원목마루 단풍나무 체육관 바닥 사진">
+      <h3>스포츠 원목마루</h3>
+      <ul class="spec">
+        <li><b>색상</b> 내추럴 메이플</li>
+        <li><b>규격</b> 경질단풍나무 T22</li>
+        <li><b>사이즈</b> 1800 × 57 mm</li>
+        <li><b>시공</b> 장선 고정 시공</li>
+      </ul>
+      <p class="old-price">250,000원</p>
+      <p class="new-price"><span class="sale">20%</span>199,000원</p>
+      <button onclick="showAlert()">장바구니</button>
+    </div>
+
+    <div class="card">
+      <img class="photo" src="images/gym-urethane.jpg" alt="탄성 우레탄 체육관 바닥 사진">
+      <h3>탄성 우레탄 바닥재</h3>
+      <ul class="spec">
+        <li><b>색상</b> 전체 칼라</li>
+        <li><b>규격</b> 탄성층 + 마감층</li>
+        <li><b>사이즈</b> 이음매 없는 도장</li>
+        <li><b>시공</b> 도장 시공</li>
+      </ul>
+      <p class="old-price">150,000원</p>
+      <p class="new-price"><span class="sale">23%</span>115,000원</p>
+      <button onclick="showAlert()">장바구니</button>
+    </div>
+
+    <div class="card">
+      <img class="photo" src="images/gym-pvcroll.jpg" alt="PVC 스포츠 롤매트 배드민턴장 바닥 사진">
+      <h3>PVC 스포츠 롤매트</h3>
+      <ul class="spec">
+        <li><b>색상</b> 그린 · 블루</li>
+        <li><b>규격</b> PVC 롤매트 T4.5</li>
+        <li><b>사이즈</b> 폭 1800 mm 롤</li>
+        <li><b>시공</b> 깔기 시공</li>
+      </ul>
+      <p class="old-price">90,000원</p>
+      <p class="new-price"><span class="sale">27%</span>65,000원</p>
+      <button onclick="showAlert()">장바구니</button>
+    </div>
+
+  </section>
+  </div>
+
   <!-- 맨 아래 안내 문구 -->
   <p class="free-install">100,000원 이상 구매하시면 <b>무료 시공</b> 해 드립니다</p>
 
@@ -409,6 +460,12 @@
       tabs[j].classList.remove("on");
     }
     btn.classList.add("on");
+
+    // 고른 카테고리 상품이 바로 화면에 보이도록 그 자리로 내려갑니다.
+    var target = (id === "all") ? blocks[0] : document.getElementById(id);
+    if (target) {
+      target.scrollIntoView({ behavior: "smooth", block: "start" });
+    }
   }
 </script>
 
